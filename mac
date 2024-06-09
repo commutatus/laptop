@@ -220,6 +220,9 @@ brew install --cask 1password
 fancy_echo "Generate an SSH Key"
 ssh-keygen -t ed25519
 
+fancy_echo "Make a projects folder"
+mkdir projects
+
 
 if [ -f "$HOME/.laptop.local" ]; then
   fancy_echo "Running your customizations from ~/.laptop.local ..."
