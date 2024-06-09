@@ -217,11 +217,16 @@ brew install --cask google-chrome
 fancy_echo "Installing 1Password ..."
 brew install --cask 1password
 
+fancy_echo "Installing Slack"
+brew install --cask slack
+
 fancy_echo "Generate an SSH Key"
 ssh-keygen -t ed25519
 
 fancy_echo "Make a projects folder"
 mkdir projects
+
+
 
 
 if [ -f "$HOME/.laptop.local" ]; then
