@@ -211,6 +211,16 @@ brew install --cask visual-studio-code
 fancy_echo "Installing Github Desktop App ..."
 brew install --cask github
 
+fancy_echo "Installing Google Chrome ..."
+brew install --cask google-chrome
+
+fancy_echo "Installing 1Password ..."
+brew install --cask 1password
+
+fancy_echo "Generate an SSH Key"
+ssh-keygen -t ed25519
+
+
 if [ -f "$HOME/.laptop.local" ]; then
   fancy_echo "Running your customizations from ~/.laptop.local ..."
   # shellcheck disable=SC1091
