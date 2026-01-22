@@ -145,7 +145,7 @@ brew "coreutils"
 brew "yarn"
 
 # Modern CLI tools
-brew "heroku/cli"
+brew "heroku"
 brew "bat"
 brew "fd"
 brew "starship"
@@ -153,8 +153,8 @@ brew "starship"
 cask "gpg-suite-no-mail"
 
 # Databases
-brew "postgresql", restart_service: :changed
-brew "redis", restart_service: :changed
+cask "postgres"
+brew "redis"
 EOF
 
 
