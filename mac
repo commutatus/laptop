@@ -112,31 +112,23 @@ if ! command -v brew >/dev/null; then
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 fi
 
-if brew list | grep -Fq brew-cask; then
-  fancy_echo "Uninstalling old Homebrew-Cask ..."
-  brew uninstall --force brew-cask
-fi
+# Remove deprecated brew-cask cleanup - no longer needed
 
 fancy_echo "Updating Homebrew formulae ..."
 brew update --force # https://github.com/Homebrew/brew/issues/1151
 brew bundle --file=- <<EOF
 tap "homebrew/services"
-tap "heroku/brew"
 
 # Unix
 brew "universal-ctags"
 brew "git"
 brew "openssl"
 brew "rcm"
-brew "reattach-to-user-namespace"
-brew "the_silver_searcher"
+brew "ripgrep"
 brew "tmux"
 brew "vim"
 brew "watchman"
 brew "zsh"
-
-# Heroku
-brew "heroku/brew/heroku"
 
 # GitHub
 brew "gh"
@@ -151,16 +143,20 @@ brew "poppler"
 brew "libyaml" # should come after openssl
 brew "coreutils"
 brew "yarn"
+
+# Modern CLI tools
+brew "heroku/cli"
+brew "bat"
+brew "fd"
+brew "starship"
+
 cask "gpg-suite-no-mail"
 
 # Databases
-brew "postgresql@14", restart_service: :changed
+brew "postgresql", restart_service: :changed
 brew "redis", restart_service: :changed
 EOF
 
-fancy_echo "Update heroku binary ..."
-brew unlink heroku
-brew link --force heroku
 
 fancy_echo "Configuring asdf version manager ..."
 if [ ! -d "$HOME/.asdf" ]; then
@@ -208,6 +204,9 @@ install_asdf_language "nodejs"
 fancy_echo "Installing VS Code ..."
 brew install --cask visual-studio-code
 
+fancy_echo "Installing Arc Browser ..."
+brew install --cask arc
+
 fancy_echo "Installing Github Desktop App ..."
 brew install --cask github
 
@@ -221,7 +220,12 @@ fancy_echo "Installing Slack"
 brew install --cask slack
 
 fancy_echo "Generate an SSH Key"
-ssh-keygen -t ed25519
+if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+  ssh-keygen -t ed25519 -C "$USER@$(hostname)" -f "$HOME/.ssh/id_ed25519" -N ""
+  fancy_echo "SSH key generated at ~/.ssh/id_ed25519"
+else
+  fancy_echo "SSH key already exists"
+fi
 
 fancy_echo "Make a projects folder"
 mkdir projects
